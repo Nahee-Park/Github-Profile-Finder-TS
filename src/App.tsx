@@ -19,9 +19,8 @@ function App():ReactElement{
     data: null,
   });
   const [userReposData,setUserReposData] = useState<Repos[]|null>(null);
-  const MAX_REOPOSITORY = 10;
   const [cleanReposData,setCleanReposData]=useState<Repos[]|null>(null);
-
+  const MAX_REOPOSITORY = 10;
   const getData = async (userId:any) => {
     setUserData({...userData, status: "pending"});
     try{
@@ -34,7 +33,7 @@ function App():ReactElement{
     }
   };
 
-  const getReposData = async (userId :any) => {
+  const getReposData = async (userId :string) => {
     const reposData:any = await reposApi(userId);
     setUserReposData(reposData);
     if(reposData!==null ){
@@ -46,9 +45,6 @@ function App():ReactElement{
     }
   } 
 
-  console.log(userReposData);
-  console.log(cleanReposData);
-
   return (
     <Container>
     {!isSearched && <SearchBar getData={getData} setIsSearched={setIsSearched} setIsClosed={setIsClosed} getReposData={getReposData} setUserReposData={setUserReposData}/>}
@@ -57,7 +53,7 @@ function App():ReactElement{
   )
 }
 
-export default App; //다른 컴포넌트에서 사용하기 위해선 export해줘야 함 
+export default App; 
 
 const Container = styled.div`
   width: 100vw;

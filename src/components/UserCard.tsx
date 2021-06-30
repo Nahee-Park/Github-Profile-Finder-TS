@@ -216,7 +216,6 @@ justify-content: center;
   }
   .card-first {
     display: flex;
-    /* align-items: center; */
   }
   .card-basic-info {
     position: relative;

@@ -17,7 +17,7 @@ interface SearchBarProps {
     getReposData:(userId:any)=>void
 }
 
-const SearchBar:React.FC<SearchBarProps> = ({getData,setIsSearched,setIsClosed,getReposData,setUserReposData}: SearchBarProps ) => {
+const SearchBar:React.FC<SearchBarProps> = ({getData,setIsSearched,setIsClosed,getReposData}: SearchBarProps ) => {
     const [userName, setUserName] = useState<string>("");
     const [userNameList,setUserNameList] = useState<string[]>(
         JSON.parse(localStorage.getItem("userName") || "[]")
