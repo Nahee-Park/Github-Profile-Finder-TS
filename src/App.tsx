@@ -37,17 +37,17 @@ function App():ReactElement{
   const getReposData = async (userId :any) => {
     const reposData:any = await reposApi(userId);
     setUserReposData(reposData);
-    setCleanReposData(reposData);
-  } 
-  useEffect(()=>{
-    console.log(userReposData);
-    console.log(cleanReposData);
-    if(userReposData!==null ){
-      if(userReposData.length>MAX_REOPOSITORY){
-        setCleanReposData(userReposData.slice(-MAX_REOPOSITORY))
-      } 
+    if(reposData!==null ){
+      if(reposData.length>MAX_REOPOSITORY){
+        setCleanReposData(reposData.slice(-MAX_REOPOSITORY))
+      } else{
+        setCleanReposData(reposData);
+      }
     }
-  },[userReposData,cleanReposData]);
+  } 
+
+  console.log(userReposData);
+  console.log(cleanReposData);
 
   return (
     <Container>

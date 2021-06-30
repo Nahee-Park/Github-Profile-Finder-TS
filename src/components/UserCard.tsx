@@ -107,23 +107,33 @@ const UserCard :React.FC<UserCardProps> = ({
 export default UserCard;
 
 const UserRepository = styled.div`
-  width: 715px;
+  width: 730px;
+  height: 91px;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
+  margin-top: -10px;
   .reposName {
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #363636;
     border-radius: 20px;
     font-family: Noto Sans;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 12px;
     line-height: 132.5%;
-
+    width: 135px;
+    height: 38px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    text-overflow: ellipsis;
     color: #dbdbdb;
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis; 
   }
 `;
 
@@ -177,6 +187,12 @@ const NothingCardWrap = styled.div`
 `;
 
 const UserCardWrap = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
   .UserCardContainer {
     width: 591px;
     height: 265px;
@@ -228,7 +244,7 @@ const UserCardWrap = styled.div`
     font-family: Noto Sans;
     font-style: normal;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 132.5%;
     color: #dbdbdb;
   }
@@ -264,7 +280,7 @@ const UserCardWrap = styled.div`
     cursor: pointer;
     position: absolute;
     margin-left: 377px;
-    margin-top: 35px;
+    margin-top: 27px;
     width: 135px;
     height: 38px;
     background: #555555;
@@ -320,8 +336,6 @@ const UserCardWrap = styled.div`
     font-weight: normal;
     font-size: 18px;
     line-height: 132.5%;
-    /* identical to box height, or 24px */
-    /* padding-left: 18px; */
     display: flex;
     align-items: center;
 
