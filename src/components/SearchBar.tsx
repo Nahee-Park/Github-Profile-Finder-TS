@@ -1,30 +1,40 @@
-import React, { useState  } from 'react';
+import React, { useState, Dispatch, SetStateAction  } from 'react';
 import styled from 'styled-components';
 import searchIcon from '../images/search-icon.svg';
 import closeIcon from '../images/closeIcon2.svg';
 import timeIcon from '../images/time-icon.svg';
+import { Repos } from '../types';
 
 const MAX_NUM = 3; 
 
-const SearchBar = ({getData,setIsSearched,setIsClosed,getReposData,setUserReposData}) => {
-    const [userName, setUserName] = useState(null);
-    const [userNameList,setUserNameList] = useState(
+type Dispatcher<S> = Dispatch<SetStateAction<S>>;
+
+interface SearchBarProps {
+    getData: (userId:any)=>void;
+    setIsSearched: Dispatcher<true|false>;
+    setIsClosed: Dispatcher<true|false>;
+    setUserReposData: Dispatcher<Repos[] | null>
+    getReposData:(userId:any)=>void
+}
+
+const SearchBar:React.FC<SearchBarProps> = ({getData,setIsSearched,setIsClosed,getReposData,setUserReposData}: SearchBarProps ) => {
+    const [userName, setUserName] = useState<string>("");
+    const [userNameList,setUserNameList] = useState<string[]>(
         JSON.parse(localStorage.getItem("userName") || "[]")
     );
-    const [userHistory,setUserHistory] = useState(false);
-    // const [userRepos,setUserRepos] =useState(false);
+    const [userHistory,setUserHistory] = useState<true|false>(false);
+
     let hide = true;
 
     //입력창에 들어오는 값 하나하나 받아들임. 그 값이 타겟값이고 그 값을  userName 으로 넘겨줌 (state변수)
-    const ChangeHandeler = (event) => {
-        // event.preventDefault();
+    const ChangeHandeler = (event:React.ChangeEvent<HTMLInputElement>):void => {
+        event.preventDefault();
         setUserName(event.target.value);
-        // setUserReposData(event.target.value);
     }
 
-    const saveUserName= (userNameList)=>{
+    const saveUserName= (userNameList:string[])=>{
         const userNameSet = new Set(userNameList);
-        const userNameFilter = [...userNameSet];
+        const userNameFilter = Array.from(userNameSet);
         if(userNameFilter.length>MAX_NUM){
             localStorage.setItem("userName",JSON.stringify(userNameFilter.slice(-3)));
         }else{
@@ -33,7 +43,7 @@ const SearchBar = ({getData,setIsSearched,setIsClosed,getReposData,setUserReposD
     }
 
     //엔터치는 순간 그 당시의 userName값을 getData로 넘김 -> getData는 부모컴포넌트의 state값을 바꿈 
-    const submitHandler = (event) => {
+    const submitHandler = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         getData(userName);
         getReposData(userName);
@@ -44,43 +54,42 @@ const SearchBar = ({getData,setIsSearched,setIsClosed,getReposData,setUserReposD
         saveUserName([...userNameList, userName]);
     }
 
-    const localStorageClick = (nameList) =>{
+    const localStorageClick = (nameList:string) =>{
         getData(nameList);
         getReposData(nameList);
         setIsSearched(true);
         setIsClosed(false);
     }
 
-    const DeleteName = (nameList,userNameList) =>{
+    const DeleteName = (nameList:string,userNameList:string[]) =>{
         const cleanNameList = userNameList.filter((eachName)=>{
             return eachName !== nameList
         });
-        // console.log(cleanNameList);
-        // saveUserName(cleanNameList);
+
         localStorage.setItem("userName",JSON.stringify(cleanNameList));
         setUserNameList(cleanNameList);
     }
-    const appearUserHistory = (event) => {
+    const appearUserHistory = () => {
         setUserHistory(true);
     }
 
-    const hideUserHistory = (event) => {
+    const hideUserHistory = () => {
         if(hide){
             setUserHistory(false);
         }
     }
 
-    const notHide = (event) =>{
+    const notHide = () =>{
         hide = false;
     }
 
-    const goHide = (event) =>{
+    const goHide = () =>{
         hide = true;
     }
 
     return(
         <SearchBarWrap>
-            <form onSubmit={submitHandler}>
+            <form onSubmit ={submitHandler}>
                 <img src={searchIcon} />    
                 <input type="text" value={userName} onChange={ChangeHandeler} placeholder="Github ID를 입력해주세요" onClick={appearUserHistory} onBlur={hideUserHistory}>
                 </input>
@@ -90,8 +99,8 @@ const SearchBar = ({getData,setIsSearched,setIsClosed,getReposData,setUserReposD
                     <HistoryCover >
                             <div className="historyContainer">
                                 <img src={timeIcon} className="timeIcon"/>
-                                <li className="nameHistory" onClick={()=>localStorageClick(nameList)} onChange={ChangeHandeler}>{nameList}</li>
-                                <img value={nameList} onClick={()=>DeleteName(nameList,userNameList)} src={closeIcon} className="closeIcon" setIsClosed={setIsClosed}/>
+                                <li className="nameHistory" onClick={()=>localStorageClick(nameList)} onChange={()=>ChangeHandeler}>{nameList}</li>
+                                <img onClick={()=>DeleteName(nameList,userNameList)} src={closeIcon} className="closeIcon" />
                             </div>
                     </HistoryCover>
                 )}

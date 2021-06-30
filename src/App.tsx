@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import SearchBar from './components/SearchBar';
 import Result from './components/Result';
 import styled from 'styled-components';
@@ -7,13 +7,13 @@ import {reposApi} from './lib/reposApi';
 import {User} from "../src/types";
 import {Repos} from "../src/types";
 
-interface UserStateInterface {
+export interface UserStateInterface {
   status: "idle" | "pending" | "resolved" | "rejected";
   data: User | null;
 }
-function App(){ 
-  const [isSearched,setIsSearched] = useState(false);
-  const [isClosed,setIsClosed] = useState(false);
+function App():ReactElement{ 
+  const [isSearched,setIsSearched] = useState<true|false>(false);
+  const [isClosed,setIsClosed] = useState<true|false>(false);
   const [userData, setUserData] = useState<UserStateInterface>({
     status: "idle",
     data: null,
@@ -52,7 +52,7 @@ function App(){
   return (
     <Container>
     {!isSearched && <SearchBar getData={getData} setIsSearched={setIsSearched} setIsClosed={setIsClosed} getReposData={getReposData} setUserReposData={setUserReposData}/>}
-    {!isClosed && <Result userData={userData} setIsSearched={setIsSearched} setIsClosed={setIsClosed} />}
+    {!isClosed && <Result userData={userData} setIsSearched={setIsSearched} setIsClosed={setIsClosed} cleanReposData={cleanReposData}/>}
     </Container>
   )
 }

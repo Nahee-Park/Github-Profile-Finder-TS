@@ -3,11 +3,14 @@ export interface User {
     bio: string;
     name: string;
     followers: number;
-    followings: number;
+    following: number;
     public_repos: number;
+    html_url: string;
+    login: string;
 }
 
 export interface Repos {
     name: string;
     repos_url: string;
+    html_url: string;
 }
